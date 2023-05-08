@@ -66,6 +66,6 @@ if(!$JwtSecurity->validateToken($auth)) return;
 
 Sitasi
 ------------
-•	[JWT Introduction] (https://jwt.io/introduction).
+•	[JWT Introduction](https://jwt.io/introduction).
 
-•	[Firebase php JWT library] (https://github.com/firebase/php-jwt/blob/main/README.md).
+•	[Firebase php JWT library](https://github.com/firebase/php-jwt/blob/main/README.md).
