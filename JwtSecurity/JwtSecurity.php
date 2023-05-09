@@ -44,8 +44,10 @@ class JwtSecurity
      */
     function validateToken($token)
     {
+        header("Content-Type: application/json;charset=utf-8");
         // Check Token availability
         if (!isset($token)) {
+            http_response_code(401);
             echo json_encode(array(
                 'status' => 'failure',
                 'message' => "Token not found in request"
@@ -53,6 +55,7 @@ class JwtSecurity
             return false;
         }
         if (!preg_match('/Bearer\s(\S+)/', $token, $matches)) {
+            http_response_code(401);
             echo json_encode(array(
                 'status' => 'failure',
                 'message' => "Token not found in request"
@@ -63,6 +66,7 @@ class JwtSecurity
         // Extract Token from Bearer
         $jwt = $matches[1];
         if (!$jwt) {
+            http_response_code(401);
             echo json_encode(array(
                 'status' => 'failure',
                 'message' => "Token not found in request"
@@ -75,6 +79,7 @@ class JwtSecurity
         try {
             $encodedToken = JWT::decode((string)$jwt, new Key($secretKey, 'HS256'));
         } catch (Exception $e) {
+            http_response_code(401);
             echo json_encode(array(
                 'status' => 'failure',
                 'message' => "Unauthorized user"
@@ -85,6 +90,7 @@ class JwtSecurity
         // Check Token expiry date
         $now = new DateTimeImmutable();
         if ($encodedToken->exp < $now->getTimestamp()) {
+            http_response_code(401);
             echo json_encode(array(
                 'status' => 'failure',
                 'message' => "Token Invalid"
