@@ -85,14 +85,14 @@ const jsonData = JSON.parse(responseBody);
 pm.environment.set('token', jsonData.token);
 console.log(jsonData.token);
 ```
-![Set Postman Environment Variable](https://github.com/mirsyadthoyib-code/API-Security/blob/main/Set_Environment_Postman.jpg?raw=true)
+![Set Postman Environment Variable](https://github.com/mirsyadthoyib-code/API-Security/blob/main/JwtSecurity/Set_Environment_Postman.jpg?raw=true)
 
 •	Tambahkan header variable pada Postman dengan format : Key "auth" Value "Bearer {{token}}"
-![Set Header Value](https://github.com/mirsyadthoyib-code/API-Security/blob/main/Set_Header_and_Use_Environment_Token.jpg?raw=true)
+![Set Header Value](https://github.com/mirsyadthoyib-code/API-Security/blob/main/JwtSecurity/Set_Header_and_Use_Environment_Token.jpg?raw=true)
 
 Alur Implementasi pada APK
 ------------
-![Alur Implementasi Penyimpanan dan Pemakaian Token](https://github.com/mirsyadthoyib-code/API-Security/blob/main/implementation_flow_APK.png?raw=true)
+![Alur Implementasi Penyimpanan dan Pemakaian Token](https://github.com/mirsyadthoyib-code/API-Security/blob/main/JwtSecurity/implementation_flow_APK.png?raw=true)
 
 Sitasi
 ------------
