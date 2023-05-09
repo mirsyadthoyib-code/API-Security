@@ -10,36 +10,49 @@ use Firebase\JWT\Key;
 
 class JwtSecurity
 {
-
-    function generateToken($username, $expire = 30)
+    /**
+     * Generate JWT Token and put username inside the payload
+     * @param string $username - Username of the user
+     * @param integer $expire - How long token will expire by days
+     * @return string - The generated token
+     */
+    function generateToken($username, $expire = 7)
     {
-        $secret_Key  = $_ENV['JWT_SECRET'];
+        // Set Token expiry date
         $date   = new DateTimeImmutable();
-        $expire_at     = $date->modify('+' . $expire . ' minutes')->getTimestamp();      // Add 30 minutes
+        $expire_at     = $date->modify('+' . $expire . ' days')->getTimestamp();      // Add 7 days
 
-        // Create the token as an array
+        // Set Token payload
         $request_data = [
-            'exp'  => $expire_at,                      // Expire
-            'userName' => $username,                // User name
+            'exp'  => $expire_at,       // Expire
+            'userName' => $username,    // User name
         ];
 
+        $secret_Key  = $_ENV['JWT_SECRET'];
         $token = JWT::encode(
-            $request_data,      //Data to be encoded in the JWT
-            $secret_Key, // The signing key
+            $request_data,  // Data to be encoded in the JWT
+            $secret_Key,    // The signing key
             'HS256'
         );
-
-        // Encode the array to a JWT string.
-        // echo json_encode(array(
-        //     'status' => 'success',
-        //     'token' => $token
-        // ));
         return $token;
     }
 
-    function validateToken($auth)
+    /**
+     * Validate token
+     * @param string $token - Generated token from login endpoint
+     * @return bool - The validation status
+     */
+    function validateToken($token)
     {
-        if (!isset($auth)) {
+        // Check Token availability
+        if (!isset($token)) {
+            echo json_encode(array(
+                'status' => 'failure',
+                'message' => "Token not found in request"
+            ));
+            return false;
+        }
+        if (!preg_match('/Bearer\s(\S+)/', $token, $matches)) {
             echo json_encode(array(
                 'status' => 'failure',
                 'message' => "Token not found in request"
@@ -47,14 +60,7 @@ class JwtSecurity
             return false;
         }
 
-        if (!preg_match('/Bearer\s(\S+)/', $auth, $matches)) {
-            echo json_encode(array(
-                'status' => 'failure',
-                'message' => "Token not found in request"
-            ));
-            return false;
-        }
-
+        // Extract Token from Bearer
         $jwt = $matches[1];
         if (!$jwt) {
             echo json_encode(array(
@@ -64,9 +70,10 @@ class JwtSecurity
             return false;
         }
 
+        // Decode Token using secret key from environment
         $secretKey  = $_ENV['JWT_SECRET'];
         try {
-            $token = JWT::decode((string)$jwt, new Key($secretKey, 'HS256'));
+            $encodedToken = JWT::decode((string)$jwt, new Key($secretKey, 'HS256'));
         } catch (Exception $e) {
             echo json_encode(array(
                 'status' => 'failure',
@@ -74,9 +81,10 @@ class JwtSecurity
             ));
             return false;
         }
-        $now = new DateTimeImmutable();
 
-        if ($token->exp < $now->getTimestamp()) {
+        // Check Token expiry date
+        $now = new DateTimeImmutable();
+        if ($encodedToken->exp < $now->getTimestamp()) {
             echo json_encode(array(
                 'status' => 'failure',
                 'message' => "Token Invalid"
@@ -84,12 +92,6 @@ class JwtSecurity
             ));
             return false;
         }
-
-        // echo json_encode(array(
-        //     'status' => 'success',
-        //     'message' => "Authorized user",
-        //     'token' => $auth
-        // ));
         return true;
     }
 }
