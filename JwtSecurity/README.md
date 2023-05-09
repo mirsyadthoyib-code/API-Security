@@ -62,7 +62,37 @@ if(!$JwtSecurity->validateToken($auth)) return;
 // end JWT Validation
 ```
 
+Contoh penerapan pada end point ReportPhotoVisit() (letakkan pada awal method/function sebelum proses apapun) :
+```php
+    public function ReportPhotoVisit()
+    {
+        // JWT Validation
+
+        $JwtSecurity = new JwtSecurity();
+        $auth = isset($this->input->request_headers()['auth']) ? $this->input->request_headers()['auth'] : '';
+        if(!$JwtSecurity->validateToken($auth)) return;
+
+        // end JWT Validation
+```
+
 •	Pastikan Aplikasi yang mengakses API endpoint telah menambahkan header pada setiap request dengan key “auth” dan value “Bearer {{token}}” ganti token dengan token yang dikirimkan API pada saat login.
+
+Alur Implementasi pada Postman
+------------
+•	Tambahkan code dibawah pada Login API bagian Tests untuk menyimpan token pada environment Postman setiap Login API di Run
+```javascript
+const jsonData = JSON.parse(responseBody);
+pm.environment.set('token', jsonData.token);
+console.log(jsonData.token);
+```
+![Set Postman Environment Variable](https://github.com/mirsyadthoyib-code/API-Security/blob/main/Set_Environment_Postman.jpg?raw=true)
+
+•	Tambahkan header variable pada Postman dengan format : Key "auth" Value "Bearer {{token}}"
+![Set Header Value](https://github.com/mirsyadthoyib-code/API-Security/blob/main/Set_Header_and_Use_Environment_Token.jpg?raw=true)
+
+Alur Implementasi pada APK
+------------
+![Alur Implementasi Penyimpanan dan Pemakaian Token](https://github.com/mirsyadthoyib-code/API-Security/blob/main/implementation_flow_APK.png?raw=true)
 
 Sitasi
 ------------
