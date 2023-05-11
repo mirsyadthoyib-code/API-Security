@@ -61,9 +61,9 @@ class XssSecurity
             return NULL;
         }
 
-        echo 'original : ' . $data, PHP_EOL;
+        // echo 'original : ' . $data, PHP_EOL;
         $data = trim(filter_var($data, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION));
-        echo 'sanitized : ' . $data, PHP_EOL;
+        // echo 'sanitized : ' . $data, PHP_EOL;
 
         if (filter_var($data, FILTER_VALIDATE_INT) === false && $minLength <= strlen($data) && strlen($data) <= $maxLength) {
             echo json_encode(array(
@@ -73,10 +73,10 @@ class XssSecurity
             return NULL;
         }
 
-        echo json_encode(array(
-            'status' => 'success',
-            'message' => "Data is valid"
-        ));
+        // echo json_encode(array(
+        //     'status' => 'success',
+        //     'message' => "Data is valid"
+        // ));
         return $data;
     }
 
@@ -97,9 +97,9 @@ class XssSecurity
             return NULL;
         }
 
-        echo 'original : ' . $data, PHP_EOL;
+        // echo 'original : ' . $data, PHP_EOL;
         $data = trim(filter_var($data, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION));
-        echo 'sanitized : ' . $data, PHP_EOL;
+        // echo 'sanitized : ' . $data, PHP_EOL;
 
         if (filter_var($data, FILTER_VALIDATE_FLOAT) === false && $minLength <= strlen($data) && strlen($data) <= $maxLength) {
             echo json_encode(array(
@@ -109,10 +109,10 @@ class XssSecurity
             return NULL;
         }
 
-        echo json_encode(array(
-            'status' => 'success',
-            'message' => "Data is valid"
-        ));
+        // echo json_encode(array(
+        //     'status' => 'success',
+        //     'message' => "Data is valid"
+        // ));
         return $data;
     }
 
@@ -133,9 +133,9 @@ class XssSecurity
             return NULL;
         }
 
-        echo 'original : ' . $data, PHP_EOL;
+        // echo 'original : ' . $data, PHP_EOL;
         $data = trim(filter_var($data, FILTER_SANITIZE_URL));
-        echo 'sanitized : ' . $data, PHP_EOL;
+        // echo 'sanitized : ' . $data, PHP_EOL;
 
         if (filter_var($data, FILTER_VALIDATE_URL) === false && $minLength <= strlen($data) && strlen($data) <= $maxLength) {
             echo json_encode(array(
@@ -145,10 +145,10 @@ class XssSecurity
             return NULL;
         }
 
-        echo json_encode(array(
-            'status' => 'success',
-            'message' => "Data is valid"
-        ));
+        // echo json_encode(array(
+        //     'status' => 'success',
+        //     'message' => "Data is valid"
+        // ));
         return $data;
     }
 
@@ -159,7 +159,7 @@ class XssSecurity
      */
     function phoneNumberValidation($data)
     {
-        $minLength = 5;
+        $minLength = 3;
         $maxLength = 15;
 
         if (!isset($data)) {
@@ -170,9 +170,9 @@ class XssSecurity
             return NULL;
         }
 
-        echo 'original : ' . $data, PHP_EOL;
+        // echo 'original : ' . $data, PHP_EOL;
         $data = trim(filter_var($data, FILTER_SANITIZE_NUMBER_INT));
-        echo 'sanitized : ' . $data, PHP_EOL;
+        // echo 'sanitized : ' . $data, PHP_EOL;
 
         if (!(preg_match('/^(\+62|62|0)8[1-9][0-9]*$/', $data) && $minLength <= strlen($data) && strlen($data) <= $maxLength)) { // \w equals "[0-9A-Za-z_]"
             // valid data, alphanumeric, special character, longer than minlenght & shorter than maxlength
@@ -183,10 +183,10 @@ class XssSecurity
             return NULL;
         }
 
-        echo json_encode(array(
-            'status' => 'success',
-            'message' => "Data is valid"
-        )), PHP_EOL;
+        // echo json_encode(array(
+        //     'status' => 'success',
+        //     'message' => "Data is valid"
+        // ));
         return $data;
     }
 
@@ -199,6 +199,9 @@ class XssSecurity
      */
     function locationValidation($latitude, $longitude)
     {
+        $minLength = 1;
+        $maxLength = 9;
+
         if (!(isset($latitude) && isset($longitude))) {
             echo json_encode(array(
                 'status' => 'failure',
@@ -207,13 +210,13 @@ class XssSecurity
             return NULL;
         }
 
-        echo 'original : ' . $latitude . ' ' . $longitude, PHP_EOL;
+        // echo 'original : ' . $latitude . ' ' . $longitude, PHP_EOL;
         $latitude = trim(filter_var($latitude, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION));
         $longitude = trim(filter_var($longitude, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION));
-        echo 'sanitized : ' . $latitude . ' ' . $longitude, PHP_EOL;
+        // echo 'sanitized : ' . $latitude . ' ' . $longitude, PHP_EOL;
 
         if (-11 <= $latitude && $latitude <= 6 && 95 <= $longitude && $longitude <= 141) {
-            if (filter_var($latitude, FILTER_VALIDATE_FLOAT) === false && 1 <= strlen($latitude) && strlen($latitude) <= 9) {
+            if (filter_var($latitude, FILTER_VALIDATE_FLOAT) === false && $minLength <= strlen($latitude) && strlen($latitude) <= $maxLength) {
                 echo json_encode(array(
                     'status' => 'failure',
                     'message' => "Data is invalid"
@@ -221,7 +224,7 @@ class XssSecurity
                 return NULL;
             }
 
-            if (filter_var($longitude, FILTER_VALIDATE_FLOAT) === false && 1 <= strlen($longitude) && strlen($longitude) <= 9) { // \w equals "[0-9A-Za-z_]"
+            if (filter_var($longitude, FILTER_VALIDATE_FLOAT) === false && $minLength <= strlen($longitude) && strlen($longitude) <= $maxLength) { // \w equals "[0-9A-Za-z_]"
                 // valid data, alphanumeric, special character, longer than minlenght & shorter than 9
                 echo json_encode(array(
                     'status' => 'failure',
@@ -238,10 +241,10 @@ class XssSecurity
         }
 
 
-        echo json_encode(array(
-            'status' => 'success',
-            'message' => "Data is valid"
-        )), PHP_EOL;
+        // echo json_encode(array(
+        //     'status' => 'success',
+        //     'message' => "Data is valid"
+        // ));
         return [$latitude, $longitude];
     }
 
@@ -263,9 +266,9 @@ class XssSecurity
             return NULL;
         }
 
-        echo 'original : ' . $data, PHP_EOL;
+        // echo 'original : ' . $data, PHP_EOL;
         $data = trim(filter_var($data, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION));
-        echo 'sanitized : ' . $data, PHP_EOL;
+        // echo 'sanitized : ' . $data, PHP_EOL;
 
         if (filter_var($data, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false && $minLength <= strlen($data) && strlen($data) <= $maxLength) {
             echo json_encode(array(
@@ -275,10 +278,10 @@ class XssSecurity
             return NULL;
         }
 
-        echo json_encode(array(
-            'status' => 'success',
-            'message' => "Data is valid"
-        ));
+        // echo json_encode(array(
+        //     'status' => 'success',
+        //     'message' => "Data is valid"
+        // ));
         return $data;
     }
 
@@ -302,9 +305,10 @@ class XssSecurity
         $image_name = $data['name'];
         $image_mime_type = mime_content_type($data['tmp_name']);
 
-        echo 'original : ' . $image_name, PHP_EOL;
+        // echo 'original : ' . $image_name, PHP_EOL;
         $image_name = trim(filter_var($image_name, FILTER_SANITIZE_STRING));
-        echo 'sanitized : ' . $image_name, PHP_EOL;
+        // echo 'sanitized : ' . $image_name, PHP_EOL;
+        // echo 'mime type : ' . $image_mime_type, PHP_EOL;
 
         if (!(preg_match('/([^\\s]+(\\.(?i)(jpe?g|png|gif|bmp))$)/', $image_name) && $minLength <= strlen($image_name))) {
             echo json_encode(array(
@@ -314,9 +318,40 @@ class XssSecurity
             return NULL;
         }
 
+        $data['name'] = $image_name;
         $image_type = array("image/png", "image/jpg", "image/jpeg", "image/gif", "image/bmp");
 
         if (!in_array($image_mime_type, $image_type)) {
+            echo json_encode(array(
+                'status' => 'failure',
+                'message' => "Data is invalid"
+            ));
+            return NULL;
+        }
+
+        // echo json_encode(array(
+        //     'status' => 'success',
+        //     'message' => "Data is valid"
+        // ));
+        return $data;
+    }
+
+    function emailValidation($data, $maxLength = 30)
+    {
+        $minLength = 8;
+        if (!isset($data)) {
+            echo json_encode(array(
+                'status' => 'failure',
+                'message' => "Data not found in request"
+            ));
+            return NULL;
+        }
+
+        echo 'original : ' . $data, PHP_EOL;
+        $data = trim(filter_var($data, FILTER_SANITIZE_EMAIL));
+        echo 'sanitized : ' . $data, PHP_EOL;
+
+        if (filter_var($data, FILTER_VALIDATE_EMAIL) === false && $minLength <= strlen($data) && strlen($data) <= $maxLength) {
             echo json_encode(array(
                 'status' => 'failure',
                 'message' => "Data is invalid"
@@ -331,7 +366,65 @@ class XssSecurity
         return $data;
     }
 
-    function emailValidation($data)
+    function boolValidation($data)
     {
+        $minLength = 1;
+        $maxLength = 1;
+
+        if (!isset($data)) {
+            echo json_encode(array(
+                'status' => 'failure',
+                'message' => "Data not found in request"
+            ));
+            return NULL;
+        }
+
+        // echo 'original : ' . $data, PHP_EOL;
+        $data = trim(filter_var($data, FILTER_SANITIZE_NUMBER_INT));
+        // echo 'sanitized : ' . $data, PHP_EOL;
+
+        if (filter_var($data, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) === NULL && $minLength <= strlen($data) && strlen($data) <= $maxLength) {
+            echo json_encode(array(
+                'status' => 'failure',
+                'message' => "Data is invalid"
+            ));
+            return NULL;
+        }
+
+        // echo json_encode(array(
+        //     'status' => 'success',
+        //     'message' => "Data is valid"
+        // ));
+        return $data;
+    }
+
+    function dateValidation($data, $format = 'Y-m-d H:i:s')
+    {
+        if (!isset($data)) {
+            echo json_encode(array(
+                'status' => 'failure',
+                'message' => "Data not found in request"
+            ));
+            return NULL;
+        }
+
+        // echo 'original : ' . $data, PHP_EOL;
+        $data = trim(filter_var($data, FILTER_SANITIZE_STRING));
+        // echo 'sanitized : ' . $data, PHP_EOL;
+
+        $d = DateTime::createFromFormat($format, $data);
+        if (!($d && $d->format($format) == $data)) {
+            echo json_encode(array(
+                'status' => 'failure',
+                'message' => "Data is invalid"
+            ));
+            return NULL;
+        }
+
+        // echo json_encode(array(
+        //     'status' => 'success',
+        //     'message' => "Data is valid"
+        // ));
+        return $data;
     }
 }
