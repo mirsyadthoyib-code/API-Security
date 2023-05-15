@@ -336,6 +336,12 @@ class XssSecurity
         return $data;
     }
 
+    /**
+     * Sanitize and Validate an email
+     * @param string $data - Data to be sanitized and validated
+     * @param integer $maxLength - Maximum data length
+     * @return mixed - Null / Sanitized data
+     */
     function emailValidation($data, $maxLength = 30)
     {
         $minLength = 8;
@@ -366,6 +372,11 @@ class XssSecurity
         return $data;
     }
 
+    /**
+     * Sanitize and Validate a boolean
+     * @param string $data - Data to be sanitized and validated
+     * @return mixed - Null / Sanitized data
+     */
     function boolValidation($data)
     {
         $minLength = 1;
@@ -398,6 +409,12 @@ class XssSecurity
         return $data;
     }
 
+    /**
+     * Sanitize and Validate date with default or given format
+     * @param string $data - Data to be sanitized and validated
+     * @param string $format - Date custom format
+     * @return mixed - Null / Sanitized data
+     */
     function dateValidation($data, $format = 'Y-m-d H:i:s')
     {
         if (!isset($data)) {

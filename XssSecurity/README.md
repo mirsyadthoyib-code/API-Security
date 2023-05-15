@@ -36,12 +36,14 @@ Berikut contoh penggunaannya :
 $data = $this->input->post('data'); // test
 $xssSecurity = new XssSecurity();
 $data = $xssSecurity->stringValidation($data) // (default) minlength = 4, maxlength = 30
+if($data === NULL) return;
 ```
 
 ```php
 $data = $this->input->post('data'); // tester
 $xssSecurity = new XssSecurity();
 $data = $xssSecurity->stringValidation($data, 5, 10) // (opsional) minlength = 5, maxlength = 10
+if($data === NULL) return;
 ```
 
 • Sanitasi dan Validasi Integer
@@ -53,12 +55,14 @@ Berikut contoh penggunaannya :
 $data = $this->input->post('data'); // 50
 $xssSecurity = new XssSecurity();
 $data = $xssSecurity->integerValidation($data) // (default) minlength = 1, maxlength = 20
+if($data === NULL) return;
 ```
 
 ```php
 $data = $this->input->post('data'); // 12345
 $xssSecurity = new XssSecurity();
 $data = $xssSecurity->integerValidation($data, 5, 10) // (opsional) minlength = 5, maxlength = 10
+if($data === NULL) return;
 ```
 
 • Sanitasi dan Validasi Float
@@ -70,12 +74,14 @@ Berikut contoh penggunaannya :
 $data = $this->input->post('data'); // 5.5
 $xssSecurity = new XssSecurity();
 $data = $xssSecurity->floatValidation($data) // (default) minlength = 1, maxlength = 20
+if($data === NULL) return;
 ```
 
 ```php
 $data = $this->input->post('data'); // 12.34
 $xssSecurity = new XssSecurity();
 $data = $xssSecurity->floatValidation($data, 5, 10) // (opsional) minlength = 5, maxlength = 10
+if($data === NULL) return;
 ```
 
 • Sanitasi dan Validasi URL/LINK
@@ -87,12 +93,14 @@ Berikut contoh penggunaannya :
 $data = $this->input->post('data'); // https://www.google.com/
 $xssSecurity = new XssSecurity();
 $data = $xssSecurity->urlValidation($data) // (default) minlength = 12, maxlength = 50
+if($data === NULL) return;
 ```
 
 ```php
 $data = $this->input->post('data'); // https://www.w3schools.com/html/default.asp
 $xssSecurity = new XssSecurity();
 $data = $xssSecurity->urlValidation($data, 20, 100) // (opsional) minlength = 20, maxlength = 100
+if($data === NULL) return;
 ```
 
 • Sanitasi dan Validasi Phone Number
@@ -104,6 +112,7 @@ Berikut contoh penggunaannya :
 $data = $this->input->post('data'); // 088123456789 || 6288123456789 || +6288123456789
 $xssSecurity = new XssSecurity();
 $data = $xssSecurity->phoneNumberValidation($data) // minlength = 3, maxlength = 15
+if($data === NULL) return;
 ```
 
 • Sanitasi dan Validasi Location
@@ -117,6 +126,8 @@ $latitude = $this->input->post('latitude'); // -7.256892,
 $longitude = $this->input->post('longitude'); // 111.017757
 $xssSecurity = new XssSecurity();
 [$latitude, $longitude] = $xssSecurity->locationValidation($latitude, $longitude) // minlength = 1, maxlength = 9
+if($latitude === NULL) return;
+if($logitude === NULL) return;
 ```
 
 • Sanitasi dan Validasi IP Address
@@ -128,6 +139,7 @@ Berikut contoh penggunaannya :
 $data = $this->input->post('data'); // 114.215.79.108
 $xssSecurity = new XssSecurity();
 $data = $xssSecurity->ipAddressValidation($data) // minlength = 7, maxlength = 15
+if($data === NULL) return;
 ```
 
 • Sanitasi dan Validasi Image
@@ -140,6 +152,7 @@ Berikut contoh penggunaannya :
 $image = isset($_FILES['image']) ? $_FILES['image'] : NULL; // file image dengan nama test.png
 $xssSecurity = new XssSecurity();
 $image = $xssSecurity->imageValidation($image)
+if($image === NULL) return;
 ```
 
 • Sanitasi dan Validasi Email
@@ -151,12 +164,14 @@ Berikut contoh penggunaannya :
 $data = $this->input->post('data'); // test@gmail.com
 $xssSecurity = new XssSecurity();
 $data = $xssSecurity->emailValidation($data) // minlength = 8, maxlength = 30
+if($data === NULL) return;
 ```
 
 ```php
 $data = $this->input->post('data'); // test@gmail.com
 $xssSecurity = new XssSecurity();
 $data = $xssSecurity->emailValidation($data, 35) // minlength = 8, maxlength = 35
+if($data === NULL) return;
 ```
 
 • Sanitasi dan Validasi Boolean
@@ -168,6 +183,7 @@ Berikut contoh penggunaannya :
 $data = $this->input->post('data'); // 0 || 1
 $xssSecurity = new XssSecurity();
 $data = $xssSecurity->boolValidation($data)
+if($data === NULL) return;
 ```
 
 • Sanitasi dan Validasi Date
@@ -179,16 +195,18 @@ Berikut contoh penggunaannya :
 $data = $this->input->post('data'); // 2023-03-30 12:05:35
 $xssSecurity = new XssSecurity();
 $data = $xssSecurity->dateValidation($data) // (Y-m-d H:i:s)
+if($data === NULL) return;
 ```
 
 ```php
 $data = $this->input->post('data'); // 2023/03/30
 $xssSecurity = new XssSecurity();
-$data = $xssSecurity->dateValidation($data) // (Y/m/d)
+$data = $xssSecurity->dateValidation($data, 'Y/m/d') // (Y/m/d)
+if($data === NULL) return;
 ```
 
 ## Sitasi
 
-• [XSS Prevention Cheat Sheet OWASP](https://owasp.org/www-community/attacks/xss/).
+• [XSS Prevention Cheat Sheet OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html).
 
 • [Input Validation Cheat Sheet OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html).
